@@ -2,6 +2,11 @@
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) {
+
+        int[] array = new int[5];
+        System.out.println(array[4]);
+
+
         MatrizEsparsaEstatica matriz1 = new MatrizEsparsaEstatica(10);
 
 

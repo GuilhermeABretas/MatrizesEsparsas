@@ -9,7 +9,7 @@ public class MatrizEsparsaEstatica {
 
     public boolean isForaDoLimite(int x, int y) {
         if (x < 0 || y < 0 || x >= dimensao || y >= dimensao) {
-            System.out.println("out of bounds");
+            System.out.println("Fora do limite definido.");
             return true;
         }
         return false;
