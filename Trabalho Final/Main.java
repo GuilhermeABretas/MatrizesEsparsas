@@ -21,16 +21,26 @@ public class Main {
 
         // Preenche m1
         m1.inserirElemento(0, 0, 1);
-        m1.inserirElemento(1, 1, 2);
-        m1.inserirElemento(2, 2, 3);
+        m1.inserirElemento(1, 0, 2);
+        m1.inserirElemento(2, 0, 3);
 
         // Preenche m2
         m2.inserirElemento(0, 0, 5);
         m2.inserirElemento(1, 1, 10);
 
 
-        MatrizEsparsaEstatica resultado = MatrizEsparsaEstatica.somarMatrizes(m1, m2);
+        MatrizEsparsaEstatica resultado = MatrizEsparsaEstatica.multiplicarMatrizes(m1, m2);
         resultado.printarMatriz();
+
+        MatrizEsparsaEstatica trans = m1.obterMatrizTransposta();
+
+        m1.printarMatriz();
+        trans.printarMatriz();
+
+        MatrizEsparsaEstatica.representarMatrizVazia(10);
+
+        MatrizEsparsaEstatica m3 = MatrizEsparsaEstatica.criarMatrizAleatoriaIterativo(30000);
+        m3.printarIterativo();
 
         for (int i = 0; i > 10; i++){}
     }

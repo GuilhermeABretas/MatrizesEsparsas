@@ -1,3 +1,5 @@
+import java.util.Random;
+
 public class MatrizEsparsaEstatica {
     private int[][] matriz;
     private int dimensao;
@@ -34,13 +36,14 @@ public class MatrizEsparsaEstatica {
     }
 
     // Item 3
-    public boolean buscarElemento(int valor) {
 
-        return buscarElemento(valor, 0, 0);
+    public boolean buscarElementoPorValor(int valor) {
+
+        return buscarElementoPorValor(valor, 0, 0);
     }
 
     // Item 3
-    private boolean buscarElemento(int valor, int x, int y) {
+    private boolean buscarElementoPorValor(int valor, int x, int y) {
         if (x >= dimensao) {
             return false;
         }
@@ -48,10 +51,27 @@ public class MatrizEsparsaEstatica {
             return true;
         }
         if (y == dimensao) {
-            return buscarElemento(valor, x + 1, 0);
+            return buscarElementoPorValor(valor, x + 1, 0);
         }
-        return buscarElemento(valor, x, y + 1);
+        return buscarElementoPorValor(valor, x, y + 1);
     }
+
+    public boolean buscarElementoPorValorIterativo(int valor){
+        for (int i = 0; i < dimensao; i++){
+            for (int j = 0; j < dimensao ; j++){
+                if (this.matriz[i][j] == valor){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public int buscarElementoPorCoordenada(int x, int y){
+        return this.matriz[x][y];
+    }
+
+
 
     // Item 4
     public void printarMatriz() {
@@ -64,7 +84,7 @@ public class MatrizEsparsaEstatica {
         if (x == dimensao) {
             return;
         }
-        System.out.print(matriz[x][y]);
+        System.out.printf(" [" + "%2d" + "] ", matriz[x][y]);
         if (y >= dimensao - 1) {
             System.out.println();
             printarMatriz(x + 1, 0);
@@ -73,6 +93,20 @@ public class MatrizEsparsaEstatica {
 
         printarMatriz(x, y + 1);
 
+    }
+
+    public void printarIterativo(){
+        for (int i = 0; i < dimensao; i++){
+            for (int j = 0; j < dimensao; j++){
+                System.out.printf(" [" + "%2d" + "] ", matriz[i][j]);
+            }
+            System.out.println();
+        }
+    }
+
+    public static void representarMatrizVazia(int dimensao){
+        MatrizEsparsaEstatica vazia = new MatrizEsparsaEstatica(dimensao);
+        vazia.printarIterativo();
     }
 
     // Item 6
@@ -97,30 +131,45 @@ public class MatrizEsparsaEstatica {
         return isVazia(x, y + 1);
     }
 
-    // Item 7
-    public boolean isDiagonal() {
-        return isDiagonal(0, 0, false);
+    public boolean isVaziaIterativo(){
+        for (int i = 0; i < dimensao; i++){
+            for (int j = 0; j < dimensao; j++){
+                if (this.matriz[i][j] != 0){
+                    return false;}
+            }
+            }
+        return true;
     }
 
     // Item 7
-    private boolean isDiagonal(int x, int y, boolean achouNumDiagonal) {
-        // 1° caso: Se x != y, verificar se valor é diferente de 0. Se sim, retorna falso.
-        // 2° caso: Se x == y, verificar se valor é diferente de 0. Se sim, continua.
+    public boolean isDiagonal() {
+        return isDiagonal(0, 0);
+    }
+
+    // Item 7
+    private boolean isDiagonal(int x, int y) {
+
         if (x == dimensao) {
-            return achouNumDiagonal;
+            return true;
         }
         if (x != y && matriz[x][y] != 0) {
             return false;
         }
-        if (achouNumDiagonal == false && x == y && matriz[x][y] != 0) {
-            achouNumDiagonal = true;
-        }
         if (y == dimensao) {
-            return isDiagonal(x + 1, 0, achouNumDiagonal);
+            return isDiagonal(x + 1, 0);
         }
 
-        return isDiagonal(x, y + 1, achouNumDiagonal);
+        return isDiagonal(x, y + 1);
     }
+
+    public boolean isDiagonalIterativo(){
+        for (int i = 0; i < dimensao; i++){
+            for (int j = 0; j < dimensao; j++) {
+                if (i != j && matriz[i][j] != 0) {
+                    return false;}
+            }}return true;
+    }
+
 
     // Item 8
     public boolean isLinha() {
@@ -130,7 +179,7 @@ public class MatrizEsparsaEstatica {
     // Item 8
     private boolean isLinha(int x, int y, boolean achouNumLinha) {
         if (x == dimensao) {
-            return achouNumLinha;
+            return true;
         }
         if (achouNumLinha == true && matriz[x][y] != 0) {
             return false;
@@ -144,6 +193,21 @@ public class MatrizEsparsaEstatica {
         }
 
         return isLinha(x, y + 1, achouNumLinha);
+    }
+
+    public boolean isLinhaIterativo(){
+        boolean achouNumLinha = false;
+        for (int i = 0; i < dimensao; i++){
+
+            for (int j = 0; j < dimensao; j++) {
+                if (achouNumLinha == false && matriz[i][j] != 0) {
+                    achouNumLinha = true;
+                    j = dimensao;}
+                if (achouNumLinha == true && matriz[i][j] != 0){
+                    return false;
+                }
+            }}
+        return true;
     }
 
     // Item 9
@@ -170,6 +234,21 @@ public class MatrizEsparsaEstatica {
         return isLinha(x + 1, y, achouNumColuna);
     }
 
+    public boolean isColunaIterativo(){
+        boolean achouNumColuna = false;
+        for (int j = 0; j < dimensao; j++){
+
+            for (int i = 0; i < dimensao; i++) {
+                if (achouNumColuna == false && matriz[i][j] != 0) {
+                    achouNumColuna = true;
+                    i = dimensao;}
+                if (achouNumColuna == true && matriz[i][j] != 0){
+                    return false;
+                }
+            }}
+        return true;
+    }
+
     public boolean isTriangularInferior() {
 
         return isTriangularInferior(0, 1, 1);
@@ -188,6 +267,17 @@ public class MatrizEsparsaEstatica {
 
         return isTriangularInferior(x, y + 1, aux);
 
+    }
+
+    public boolean isTriangularInferiorIterativo(){
+        for (int i = 0; i < dimensao; i++){
+
+            for (int j = i + 1; j < dimensao; j++) {
+                if(this.matriz[i][j] != 0){
+                    return false;
+                }
+            }}
+        return true;
     }
 
     public boolean isTriangularSuperior() {
@@ -210,6 +300,17 @@ public class MatrizEsparsaEstatica {
 
     }
 
+    public boolean isTriangularSuperiorIterativo(){
+        for (int i = 1; i < dimensao; i++){
+
+            for (int j = 0; j < i; j++) {
+                if(this.matriz[i][j] != 0){
+                    return false;
+                }
+            }}
+        return true;
+    }
+
     public boolean isSimetrica() {
         return isSimetrica(0, 0);
     }
@@ -226,6 +327,17 @@ public class MatrizEsparsaEstatica {
         }
 
         return isSimetrica(x, y + 1);
+    }
+
+    public boolean isSimetricaIterativo(){
+        for (int i = 0; i < dimensao; i++){
+
+            for (int j = 0; j < dimensao; j++) {
+                if(this.matriz[i][j] !=this.matriz[j][i]){
+                    return false;
+                }
+            }}
+        return true;
     }
 
     public static MatrizEsparsaEstatica somarMatrizes(MatrizEsparsaEstatica m1, MatrizEsparsaEstatica m2) {
@@ -250,5 +362,143 @@ public class MatrizEsparsaEstatica {
             somaRecursiva(x, y + 1, m1, m2, resultado);
         }
 
+    }
+
+    public static MatrizEsparsaEstatica somarMatrizesIterativo(MatrizEsparsaEstatica m1, MatrizEsparsaEstatica m2){
+        if (m1.dimensao != m2.dimensao) {
+            return null;
+        }
+        MatrizEsparsaEstatica resultado = new MatrizEsparsaEstatica(m1.dimensao);
+
+        for (int i = 0; i < resultado.dimensao; i++){
+
+            for (int j = 0; j < resultado.dimensao; j++) {
+                resultado.matriz[i][j] = (m1.matriz[i][j] + m2.matriz[i][j]);
+                }
+            }
+
+        return resultado;
+    }
+
+    public static MatrizEsparsaEstatica multiplicarMatrizes(MatrizEsparsaEstatica m1, MatrizEsparsaEstatica m2){
+        if (m1.dimensao != m2.dimensao) {
+            return null;
+        }
+        MatrizEsparsaEstatica resultado = new MatrizEsparsaEstatica(m1.dimensao);
+        multiplicarRecursiva(0, 0, m1, m2, resultado);
+        return resultado;
+    }
+
+    private static void multiplicarRecursiva(int x, int y, MatrizEsparsaEstatica m1, MatrizEsparsaEstatica m2, MatrizEsparsaEstatica resultado){
+        if (x == m1.dimensao) {
+            return;
+        }
+        if (y == m1.dimensao) {
+            multiplicarRecursiva(x + 1, 0, m1, m2, resultado);
+            return;}
+        int valor = resultado.multiplicarRecursivoAux(x, y, 0, 0, m1, m2);
+
+        resultado.matriz[x][y] = valor;
+
+        multiplicarRecursiva(x, y + 1, m1, m2, resultado);
+    }
+
+    private int multiplicarRecursivoAux(int x, int y, int k, int valorAtual, MatrizEsparsaEstatica m1, MatrizEsparsaEstatica m2){
+        if (k == this.dimensao){
+            return valorAtual;
+        }
+        valorAtual += m1.matriz[x][k] * m2.matriz[k][y];
+        return multiplicarRecursivoAux(x, y, k, valorAtual, m1, m2);
+    }
+
+    public static MatrizEsparsaEstatica  multiplicarMatrizesIterativo(MatrizEsparsaEstatica m1, MatrizEsparsaEstatica m2){
+        if (m1.dimensao != m2.dimensao) {
+            return null;
+        }
+        MatrizEsparsaEstatica resultado = new MatrizEsparsaEstatica(m1.dimensao);
+        for (int i = 0; i < resultado.dimensao; i++){
+
+            for (int j = 0; j < resultado.dimensao; j++) {
+                resultado.matriz[i][j] = 0;
+                for (int k = 0; k < m1.dimensao; k++){
+                    resultado.matriz[i][j] += (m1.matriz[i][k] * m2.matriz[k][j]);
+                }
+            }
+        }
+        return resultado;
+    }
+
+    public MatrizEsparsaEstatica obterMatrizTransposta(){
+        MatrizEsparsaEstatica transposta = new MatrizEsparsaEstatica(this.dimensao);
+        obterMatrizTransposta(0, 0, transposta);
+        return transposta;
+    }
+
+    private void obterMatrizTransposta(int x, int y, MatrizEsparsaEstatica transposta){
+        if (x == this.dimensao) {
+            return;
+        }
+        if (y == this.dimensao) {
+            obterMatrizTransposta(x + 1, 0, transposta);
+            return;
+        }
+        transposta.matriz[y][x] = this.matriz[x][y];
+
+        obterMatrizTransposta(x, y + 1, transposta);
+        return;
+    }
+
+    public MatrizEsparsaEstatica obterMatrizTranspostaIterativo(){
+        MatrizEsparsaEstatica transposta = new MatrizEsparsaEstatica(this.dimensao);
+        for (int i = 0; i < transposta.dimensao; i++){
+
+            for (int j = 0; j < transposta.dimensao; j++) {
+                transposta.matriz[j][i] = this.matriz[i][j];
+            }
+        }
+        return transposta;
+    }
+
+    public static MatrizEsparsaEstatica criarMatrizAleatoria(int dimensao){
+        MatrizEsparsaEstatica novaMatriz = new MatrizEsparsaEstatica(dimensao);
+
+        int lotacao = (int) ((novaMatriz.dimensao * novaMatriz.dimensao) * 0.4) ;
+
+
+
+        novaMatriz.preencherMatrizAleatoria(0,0,lotacao);
+        return novaMatriz;
+    }
+    private void preencherMatrizAleatoria(int x, int y, int lotacao){
+
+        Random random = new Random();
+        do{
+            x = random.nextInt(this.dimensao);
+            y = random.nextInt(this.dimensao);
+        }
+        while (this.matriz[x][y] != 0);
+        this.matriz[x][y] = random.nextInt(100);
+        lotacao--;
+        if (lotacao <= 0){
+            return;
+        }
+        this.preencherMatrizAleatoria(x, y, lotacao);
+
+    }
+
+    public static MatrizEsparsaEstatica criarMatrizAleatoriaIterativo(int dimensao){
+        MatrizEsparsaEstatica novaMatriz = new MatrizEsparsaEstatica(dimensao);
+        int vagas = (int) (dimensao * dimensao * 0.4);
+        Random random = new Random();
+        int x = 0;
+        int y = 0;
+        for(int i = 0; i < vagas; i++){
+            do{
+                x = random.nextInt(novaMatriz.dimensao);
+                y = random.nextInt(novaMatriz.dimensao);
+            }
+            while (novaMatriz.matriz[x][y] != 0);
+            novaMatriz.matriz[x][y] = random.nextInt(100);
+        }return novaMatriz;
     }
 }
