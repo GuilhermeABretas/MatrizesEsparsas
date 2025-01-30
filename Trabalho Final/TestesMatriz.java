@@ -1,8 +1,7 @@
 public class TestesMatriz {
     public static void main(String[] args) {
-        MatrizEsparsaLista m1 = new MatrizEsparsaLista(4);
-        MatrizEsparsaLista m2 = new MatrizEsparsaLista(4);
-        /*
+        MatrizEsparsaLista m1 = new MatrizEsparsaLista(10);
+        MatrizEsparsaLista m2 = new MatrizEsparsaLista(10);
         m1.inserirElemento(0, 0, 4);
         m1.inserirElemento(0, 3, 7);
         m1.inserirElemento(1, 1, 3);
@@ -26,11 +25,10 @@ public class TestesMatriz {
         System.out.println();
         m2.printarMatriz();
 
-         */
-
-        System.out.println();
-        MatrizEsparsaLista m3 = MatrizEsparsaLista.criarMatrizAleatoriaIterativo(2000);
+        MatrizEsparsaLista m3 = MatrizEsparsaLista.criarMatrizAleatoria(10);
         m3.printarMatriz();
 
+        m3.removerElemento(0, 2);
+        System.out.println();
     }
 }
