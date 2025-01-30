@@ -1,17 +1,55 @@
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) {
+        long nanosTotais = 0;
+        int repeticoes = 1600000000;
+        int count = 0;
+        MatrizEsparsaEstatica matriz1 = MatrizEsparsaEstatica.criarMatrizAleatoriaIterativo(20000);
+        int x = 0, y = 0;
+        for (int i = repeticoes; i > 0; i--) {
+            if (40000 / (y + 1) == 1) {
+                y = 0;
+                x++;
+            }
+            long inicio = System.nanoTime();
 
-        int[] array = new int[5];
-        System.out.println(array[4]);
+            matriz1.inserirElemento(x, y, 10);
+
+            long fim = System.nanoTime();
+
+            long tempoExecucao = (fim - inicio);
+            System.out.println("Tempo de execução: " + tempoExecucao + "ns");
+
+            nanosTotais += tempoExecucao;
+            y++;
+            count++;
+        }
+
+        double tempoMedioDeExecucao = nanosTotais / repeticoes;
+        System.out.println("Tempo médio de execução após " + repeticoes + " repetições: " + tempoMedioDeExecucao + "ns");
+        System.out.println(count);
+
+        /*
+        long nanosTotais = 0;
+        int repeticoes = 1000;
+        for (int i = repeticoes; i > 0; i--) {
+            long inicio = System.nanoTime();
+
+            matriz1.inserirElemento(5, 5, 45);
+
+            long fim = System.nanoTime();
 
 
-        MatrizEsparsaEstatica matriz1 = new MatrizEsparsaEstatica(10);
+            long tempoExecucao = (fim - inicio);
+            System.out.println("Tempo de execução: " + tempoExecucao + "ns");
+
+            nanosTotais += tempoExecucao;
+        }
+
+        double tempoMedioDeExecucao = nanosTotais / repeticoes;
+        System.out.println("Tempo médio de execução após " + repeticoes + " repetições: " + tempoMedioDeExecucao + "ns");
 
 
-
-        MatrizEsparsaEstatica matriz2 = new MatrizEsparsaEstatica(10);
+        /*MatrizEsparsaEstatica matriz2 = new MatrizEsparsaEstatica(10);
         matriz2.printarMatriz();
         System.out.println(matriz2.isSimetrica());
         matriz2.inserirElemento(0,1, 2);
@@ -43,5 +81,8 @@ public class Main {
         m3.printarIterativo();
 
         for (int i = 0; i > 10; i++){}
+
+
+         */
     }
 }
