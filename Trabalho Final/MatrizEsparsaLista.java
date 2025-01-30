@@ -79,31 +79,22 @@ public class MatrizEsparsaLista {
 
     // Item 2
     public boolean removerElemento(int i, int j) {
-        if (isForaDoLimite(i, j)) {
+        if (isForaDoLimite(i, j) || linha[i] == null) {
             return false;
         }
-        if (linha[i] == null) {
-            return false;
-        }
-
-        return removerElemento(linha[i], j);
+        linha[i] = removerElemento(linha[i], j);
+        return linha[i] != null;
     }
 
-    // Item
-    private boolean removerElemento(Elo elo, int j) {
-        if (j > elo.coluna ) {
-            return false;
+    private Elo removerElemento(Elo elo, int j) {
+        if (elo == null || elo.coluna > j) {
+            return elo;
         }
-        if (j == elo.coluna) {
-            elo = elo.prox;
-            return true;
+        if (elo.coluna == j) {
+            return elo.prox;
         }
-        if (elo.prox == null) {
-            return false;
-        }
-        else{
-            return removerElemento(elo.prox, j);
-        }
+        elo.prox = removerElemento(elo.prox, j);
+        return elo;
     }
 
     public boolean removerElementoIterativo(int i, int j) {
@@ -112,23 +103,24 @@ public class MatrizEsparsaLista {
         }
         if (linha[i] == null) {
             return false;
-        }
-        else {
+        } else {
             Elo p;
-            for(p = linha[i]; p != null; p = p.prox) {
-                if (j > p.coluna){
-                    return false;
-                }
-                if (j == p.coluna){
-                    p = p.prox;
-                    return true;
-                }
-                if (p.prox == null){
-                    return false;
-                }
+            Elo ant = null;
+            for (p = linha[i]; (p != null && j > p.coluna); p = p.prox) {
+                ant = p;
             }
+            if (p == null || p.coluna > j) {
+                return false;
+            }
+            if (p == linha[i]) {
+                linha[i] = linha[i].prox;
+            } else {
+                ant.prox = p.prox;
+            }
+
+            p = null;
+            return true;
         }
-        return false;
     }
 
     // Item 3
